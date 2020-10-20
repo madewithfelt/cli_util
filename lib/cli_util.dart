@@ -57,5 +57,11 @@ Directory getSdkDir([List<String>? cliArgs]) {
   return Directory(getSdkPath());
 }
 
+final _flutterTesterSdkRelativePath = path.join(
+    'bin', 'cache', 'artifacts', 'engine', 'darwin-x64', 'flutter_tester');
+
 /// Return the path to the current Dart SDK.
-String getSdkPath() => path.dirname(path.dirname(Platform.resolvedExecutable));
+String getSdkPath() => Platform.resolvedExecutable.endsWith('/flutter_tester')
+    ? path.normalize(Platform.resolvedExecutable
+        .replaceFirst(_flutterTesterSdkRelativePath, ''))
+    : path.dirname(path.dirname(Platform.resolvedExecutable));
